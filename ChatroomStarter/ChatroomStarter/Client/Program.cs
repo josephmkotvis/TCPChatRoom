@@ -12,7 +12,7 @@ namespace Client
         {
             Client client = new Client("127.0.0.1", 9999);
             client.Send();
-            client.Recieve();
+            client.Receive();
             Console.ReadLine();
         }
     }

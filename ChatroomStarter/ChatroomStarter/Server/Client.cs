@@ -25,11 +25,13 @@ namespace Server
         }
         public string Recieve()
         {
+            //lock
             byte[] recievedMessage = new byte[256];
             stream.Read(recievedMessage, 0, recievedMessage.Length);
-            string recievedMessageString = Encoding.ASCII.GetString(recievedMessage);
+            string recievedMessageString = System.Text.Encoding.ASCII.GetString(recievedMessage);
             Console.WriteLine(recievedMessageString);
             return recievedMessageString;
+
         }
 
     }

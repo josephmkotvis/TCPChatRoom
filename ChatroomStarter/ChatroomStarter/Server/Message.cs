@@ -17,5 +17,6 @@ namespace Server
             this.Body = Body;
             UserId = sender?.UserId;
         }
+        //maybe need a list of messages saved
     }
 }

@@ -27,6 +27,7 @@ namespace Server
         }
         private void AcceptClient()
         {
+            // Might need to accept more than one client
             TcpClient clientSocket = default(TcpClient);
             clientSocket = server.AcceptTcpClient();
             Console.WriteLine("Connected");
