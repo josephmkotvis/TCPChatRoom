@@ -12,11 +12,16 @@ namespace Client
     {
         TcpClient clientSocket;
         NetworkStream stream;
+        public string UserId;
         public Client(string IP, int port)
         {
             clientSocket = new TcpClient();
             clientSocket.Connect(IPAddress.Parse(IP), port);
             stream = clientSocket.GetStream();
+        }
+        public void Create()
+        {
+            Client client = new Client("127.0.0.1", 9999);
         }
         public void Send()
         {

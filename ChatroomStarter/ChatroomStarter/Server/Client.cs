@@ -12,6 +12,7 @@ namespace Server
         NetworkStream stream;
         TcpClient client;
         public string UserId;
+        HashSet <Client> clientList;
         public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;

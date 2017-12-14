@@ -14,6 +14,8 @@ namespace Server
     {
         public static Client client;
         TcpListener server;
+         
+
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
