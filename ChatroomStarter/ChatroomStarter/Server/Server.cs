@@ -18,9 +18,9 @@ namespace Server
         private Object messageLock = new object();
         // que list of messages;
         public Queue<Message> chatLog = new Queue<Message>();
-        public Server()
+        public Server(string IP)
         {
-            server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
+            server = new TcpListener(IPAddress.Parse(IP), 9999);
             server.Start();
         }
         public void Run()

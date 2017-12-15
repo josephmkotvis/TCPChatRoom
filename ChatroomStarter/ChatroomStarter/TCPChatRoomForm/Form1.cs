@@ -18,19 +18,17 @@ namespace TCPChatRoomForm
     public partial class Form1 : Form
     {
         TcpClient clientSocket = new TcpClient();
-        NetworkStream serverStream = default(NetworkStream);
+        NetworkStream serverStream;
         public string UserId;
         public string userName;
         string IP;
         int port = 9999;
         List<string> messageLog = new List<string>();
         private Object recievedMessageLock = new object();
-        // add lock
+        // Maybe create a list of servers premade with the IP address. Either Here or in server class.
         public Form1()
         {
             InitializeComponent();
-            clientSocket = new TcpClient();
-            serverStream = clientSocket.GetStream();
         }
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -45,9 +43,10 @@ namespace TCPChatRoomForm
 
         }
 
-        public void SetIp()
+        public string SetIp()
         {
-            IP = ServerIPTextBox + "";
+            IP = ServerIPTextBox.Text;
+            return IP;
         }
         public void Receive()
         {
@@ -59,6 +58,7 @@ namespace TCPChatRoomForm
                     serverStream.Read(receivedMessage, 0, receivedMessage.Length);
                     string receivedMessageString = Encoding.ASCII.GetString(receivedMessage);
                     messageLog.Add(receivedMessageString);
+                    MessageBox.DataSource = messageLog;
                 }
             }
         }
@@ -71,9 +71,10 @@ namespace TCPChatRoomForm
             }
             //stream.Flush();
         }
-        public void SetClientUserName()
+        public string SetClientUserName()
         {
-            userName = (SetNameTextBox + "");
+            userName = (SetNameTextBox.Text);
+            return userName;
         }
 
         private void SetUserName_Click(object sender, EventArgs e)
@@ -109,12 +110,37 @@ namespace TCPChatRoomForm
 
         private void SelectServer_Click(object sender, EventArgs e)
         {
-                SetIp();
-                clientSocket.Connect(IPAddress.Parse(IP), port);
-
+            SetIp();
+            clientSocket = new TcpClient();
+            clientSocket.Connect(IPAddress.Parse(IP), port);
+            serverStream = clientSocket.GetStream();
         }
 
         private void ServerIPTextBox_TextChanged(object sender, EventArgs e)
+        {
+             
+        }
+
+        private void ChatBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void MessageBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Server1Info_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Server2Info_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void PrivateServer3Info_Click(object sender, EventArgs e)
         {
 
         }
