@@ -35,9 +35,9 @@ namespace Client
             byte[] receivedMessage = new byte[256];
             stream.Read(receivedMessage, 0, receivedMessage.Length);
             UI.DisplayMessage(Encoding.ASCII.GetString(receivedMessage));
-            // recievedMessageString = System.Test.Encoding.ASCII.GetString( data, 0 , bytes);
-            // Console.WriteLine("Recieved: {0}", rerevievedMessageString);
-            // return recievedMessageString;
+            // receivedMessageString = System.Test.Encoding.ASCII.GetString( data, 0 , bytes);
+            // Console.WriteLine("Recieved: {0}", rereviewedMessageString);
+            // return receivedMessageString;
         }
     }
 }
