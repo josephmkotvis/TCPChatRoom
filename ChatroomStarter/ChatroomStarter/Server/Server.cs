@@ -14,7 +14,6 @@ namespace Server
     {
         public static Client client;
         TcpListener server;
-        int counter = 0;
         HashSet<Client> clientList = new HashSet<Client>();
         private Object messageLock = new object();
 
@@ -54,7 +53,6 @@ namespace Server
             {
                 TcpClient clientSocket = default(TcpClient);
                 Console.WriteLine("Connected");
-                counter++;
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
                 client = new Client(stream, clientSocket, userName);

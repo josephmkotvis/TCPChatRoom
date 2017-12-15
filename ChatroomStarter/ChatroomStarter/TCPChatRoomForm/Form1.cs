@@ -18,12 +18,13 @@ namespace TCPChatRoomForm
     {
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         NetworkStream serverStream = default(NetworkStream);
-        string setnData = null;
+        string sentData = null;
 
         public Form1()
         {
+            InitializeComponent();
         }
-
+   
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -31,7 +32,7 @@ namespace TCPChatRoomForm
 
         private void button1_Click(object sender, EventArgs e)
         {
-
+            Message();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -43,11 +44,6 @@ namespace TCPChatRoomForm
         {
 
         }
-
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
-        {
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
@@ -82,5 +78,45 @@ namespace TCPChatRoomForm
         {
 
         }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {   
+
+        }
+
+        private void PromptServor_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        private void Message()
+        {
+            if (this.InvokeRequired)
+                this.Invoke(new MethodInvoker(message));
+            else
+                textBox.Text = textBox1.Text + Environment.NewLine + " >> " + readData;
+        }
+
+        private void Connect_Click(object sender, EventArgs e)
+        {
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(textBox2.Text + "$");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+        }
+        public string Receive()
+        {
+            while (true)
+            {
+                byte[] receivedMessage = new byte[256];
+                stream.Read(receivedMessage, 0, receivedMessage.Length);
+                UI.DisplayMessage(Encoding.ASCII.GetString(receivedMessage));
+            }
+        }
+        public void Send(string Message, string userName)
+        {
+            byte[] message = Encoding.ASCII.GetBytes(userName + ":" + Message);
+            stream.Write(message, 0, message.Count());
+            //stream.Flush();
+        }
+
     }
 }
