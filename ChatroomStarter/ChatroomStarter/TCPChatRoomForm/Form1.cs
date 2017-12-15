@@ -16,7 +16,7 @@ namespace TCPChatRoomForm
 {
     public partial class Form1 : Form
     {
-        System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
+        TcpClient clientSocket = new TcpClient();
         NetworkStream serverStream = default(NetworkStream);
         string sentData = null;
         string userName;
@@ -25,12 +25,11 @@ namespace TCPChatRoomForm
         {
             InitializeComponent();
         }
-   
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
-
+  
         private void button1_Click(object sender, EventArgs e)
         {
         }
