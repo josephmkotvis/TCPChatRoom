@@ -13,11 +13,13 @@ namespace Client
         TcpClient clientSocket;
         NetworkStream stream;
         public string UserId;
-        public Client(string IP, int port, string Username)
+        public string userName;
+        public Client(string IP, int port, string userName)
         {
             clientSocket = new TcpClient();
             clientSocket.Connect(IPAddress.Parse(IP), port);
             stream = clientSocket.GetStream();
+            this.userName = userName;
             
         }
         //public void Send()

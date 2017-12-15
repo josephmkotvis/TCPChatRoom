@@ -40,6 +40,7 @@
             this.PromptServor = new System.Windows.Forms.Panel();
             this.ServerLabel = new System.Windows.Forms.Label();
             this.Connect = new System.Windows.Forms.Button();
+            this.SetUserName = new System.Windows.Forms.Button();
             this.AskName.SuspendLayout();
             this.PromptServor.SuspendLayout();
             this.SuspendLayout();
@@ -91,13 +92,14 @@
             this.Servers.Name = "Servers";
             this.Servers.Size = new System.Drawing.Size(416, 208);
             this.Servers.TabIndex = 5;
+            this.Servers.SelectedIndexChanged += new System.EventHandler(this.Servers_SelectedIndexChanged);
             // 
             // WriteName
             // 
             this.WriteName.Location = new System.Drawing.Point(12, 65);
             this.WriteName.Multiline = true;
             this.WriteName.Name = "WriteName";
-            this.WriteName.Size = new System.Drawing.Size(356, 52);
+            this.WriteName.Size = new System.Drawing.Size(261, 52);
             this.WriteName.TabIndex = 6;
             this.WriteName.TextChanged += new System.EventHandler(this.textBox2_TextChanged);
             // 
@@ -161,11 +163,22 @@
             this.Connect.UseVisualStyleBackColor = true;
             this.Connect.Click += new System.EventHandler(this.Connect_Click);
             // 
+            // SetUserName
+            // 
+            this.SetUserName.Location = new System.Drawing.Point(270, 65);
+            this.SetUserName.Name = "SetUserName";
+            this.SetUserName.Size = new System.Drawing.Size(98, 52);
+            this.SetUserName.TabIndex = 11;
+            this.SetUserName.Text = "Set Name";
+            this.SetUserName.UseVisualStyleBackColor = true;
+            this.SetUserName.Click += new System.EventHandler(this.SetUserName_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(819, 759);
+            this.Controls.Add(this.SetUserName);
             this.Controls.Add(this.Connect);
             this.Controls.Add(this.WriteName);
             this.Controls.Add(this.PromptServor);
@@ -202,6 +215,7 @@
         private System.Windows.Forms.Button Connect;
         private System.Windows.Forms.Label UsernameLabel;
         private System.Windows.Forms.Label ServerLabel;
+        private System.Windows.Forms.Button SetUserName;
     }
 }
 
