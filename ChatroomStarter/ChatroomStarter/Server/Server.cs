@@ -23,18 +23,17 @@ namespace Server
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
         }
-        public void Run(userName)
+        public void Run()
         {
             // thread is etc.
-
+   
             // change lambda to make them threads
-            Thread acceptClientThread = new Thread(AcceptClient(userName));
             Parallel.Invoke(
-                acceptClientThread.Start();
-               
+                () => AcceptClient(),
+                () => ReceiveAndRespond()
             );
         }
-        public void RecieveAndRespond()
+        public void ReceiveAndRespond()
         {
             lock (messageLock)
             {
@@ -52,7 +51,7 @@ namespace Server
                 }
             }
         }
-        private void AcceptClient(userName)
+        private void AcceptClient()
         {
             while (true)
             {
@@ -60,7 +59,8 @@ namespace Server
                 Console.WriteLine("Connected");
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
-                client = new Client(stream, clientSocket, userName);
+                client = new Client(stream, clientSocket);
+                client.SetUserName();
                 clientList.Add(client);                
                 Respond(client, client.userName + "has connected to the server");
             }
@@ -77,7 +77,7 @@ namespace Server
         private void UpdateChatList(Client client, string body)
         {
             Message chatAddition = new Message(client, body);
-            // add message to list message.add(chatAddition);
+            chatLog.Enqueue(chatAddition);
         }
 
     }

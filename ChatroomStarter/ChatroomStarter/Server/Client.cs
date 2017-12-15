@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Client
+    public class Client
     {
         NetworkStream stream;
         TcpClient client;
         public string UserId;
         public string userName;
-        public Client(NetworkStream Stream, TcpClient Client, String userName)
+        public Client(NetworkStream Stream, TcpClient Client)
         {
             stream = Stream;
             client = Client;
             UserId = "495933b6-1762-47a1-b655-483510072e73";
-            this.userName = userName;
+                //set userID as user IP address
         }
         public void Send(Queue<Message> chatLog)
         {
@@ -37,6 +37,13 @@ namespace Server
             string receivedMessageString = Encoding.ASCII.GetString(receivedMessage);
             Console.WriteLine(receivedMessageString);
             return receivedMessageString;
+        }
+        public void SetUserName()
+        {
+            byte[] receivedUserName = new byte[256];
+            stream.Read(receivedUserName, 0, receivedUserName.Length);
+            string receivedUserNameString = Encoding.ASCII.GetString(receivedUserName);
+            userName = receivedUserNameString;
         }
 
     }
