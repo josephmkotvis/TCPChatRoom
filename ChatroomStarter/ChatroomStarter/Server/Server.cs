@@ -14,8 +14,8 @@ namespace Server
     {
         public static Client client;
         TcpListener server;
-        int counter = 0;
         HashSet<Client> clientList = new HashSet<Client>();
+        private Object messageLock = new object();
 
         public Server()
         {
@@ -24,29 +24,35 @@ namespace Server
         }
         public void Run(string userName)
         {
-            // parallel invoke
-            AcceptClient(userName);
-            while (true)
+            Parallel.Invoke(
+                () => AcceptClient(userName),
+                () => RecieveAndRespond(userName)
+            );
+        }
+        public void RecieveAndRespond(string userName)
+        {
+            lock (messageLock)
             {
-                try
+                while (true)
                 {
-                    string message = client.Receive();
-                    Respond(message, userName);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.ToString());
+                    try
+                    {
+                        string message = client.Receive();
+                        Respond(message, userName);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
             }
         }
         private void AcceptClient(string userName)
         {
-            // Might need to accept more than one client
-            TcpClient clientSocket = default(TcpClient);
-            Console.WriteLine("Connected");
             while (true)
             {
-                counter++;
+                TcpClient clientSocket = default(TcpClient);
+                Console.WriteLine("Connected");
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
                 client = new Client(stream, clientSocket, userName);
