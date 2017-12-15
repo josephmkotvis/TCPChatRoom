@@ -20,9 +20,9 @@ namespace Server
             UserId = "495933b6-1762-47a1-b655-483510072e73";
             this.userName = userName;
         }
-        public void Send(string Message)
+        public void Send(Message chat)
         {
-            byte[] message = Encoding.ASCII.GetBytes(Message);
+            byte[] message = Encoding.ASCII.GetBytes(chat);
             stream.Write(message, 0, message.Count());
             //stream.Flush();
         }

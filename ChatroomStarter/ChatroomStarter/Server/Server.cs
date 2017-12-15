@@ -16,7 +16,7 @@ namespace Server
         TcpListener server;
         HashSet<Client> clientList = new HashSet<Client>();
         private object messageLock = new object();
-        public Queue<Message> MessageList = new Queue<Message>();
+        public Queue<Message> chatLog = new Queue<Message>();
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
@@ -38,7 +38,8 @@ namespace Server
                     try
                     {
                         string message = client.Receive();
-                        Respond(message);
+                        Message chat = new Message(client, message);
+                        Respond(chat);
                     }
                     catch (Exception ex)
                     {
@@ -64,9 +65,9 @@ namespace Server
             //Console.WriteLine("Exit");
             //Console.ReadLine();
         }
-        private void Respond(string body)
+        private void Respond(Message chat)
         {
-             client.Send(body);
+             client.Send(chat);
         }
 
     }
