@@ -20,11 +20,15 @@ namespace Server
             UserId = "495933b6-1762-47a1-b655-483510072e73";
             this.userName = userName;
         }
-        public void Send(string Message)
+        public void Send(Queue<Message> chatLog)
         {
-            byte[] message = Encoding.ASCII.GetBytes(Message);
-            stream.Write(message, 0, message.Count());
-            //stream.Flush();
+            foreach( Message queMessage in chatLog)
+            {
+                byte[] message = Encoding.ASCII.GetBytes(queMessage.sender.userName + ": " + queMessage.Body);
+                stream.Write(message, 0, message.Count());
+                //stream.Flush();
+            }
+
         }
         public string Receive()
         {

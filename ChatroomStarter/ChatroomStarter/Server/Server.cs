@@ -17,7 +17,7 @@ namespace Server
         HashSet<Client> clientList = new HashSet<Client>();
         private Object messageLock = new object();
         // que list of messages;
-
+        public Queue<Message> chatLog = new Queue<Message>();
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
@@ -26,11 +26,12 @@ namespace Server
         public void Run(userName)
         {
             // thread is etc.
-   
+
             // change lambda to make them threads
+            Thread acceptClientThread = new Thread(AcceptClient(userName));
             Parallel.Invoke(
-                () => AcceptClient(userName),
-                () => RecieveAndRespond()
+                acceptClientThread.Start();
+               
             );
         }
         public void RecieveAndRespond()
@@ -71,12 +72,13 @@ namespace Server
         private void Respond(Client client, string body)
         {
             UpdateChatList(client, body);
-            client.Send(messageList);
+            client.Send(chatLog);
         }
         private void UpdateChatList(Client client, string body)
         {
             Message chatAddition = new Message(client, body);
             // add message to list message.add(chatAddition);
         }
+
     }
 }
