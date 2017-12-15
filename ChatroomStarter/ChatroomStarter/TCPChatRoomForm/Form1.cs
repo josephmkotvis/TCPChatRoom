@@ -24,10 +24,6 @@ namespace TCPChatRoomForm
         {
             InitializeComponent();
         }
-<<<<<<< HEAD
-=======
-   
->>>>>>> 22ba8cc7de04eddddf5eaf621da0eb81dff709a2
         private void Form1_Load(object sender, EventArgs e)
         {
 

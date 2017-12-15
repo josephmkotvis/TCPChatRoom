@@ -15,21 +15,21 @@ namespace Server
         public static Client client;
         TcpListener server;
         HashSet<Client> clientList = new HashSet<Client>();
-        private Object messageLock = new object();
-
+        private object messageLock = new object();
+        public Queue<Message> MessageList = new Queue<Message>();
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
         }
-        public void Run(string userName)
+        public void Run()
         {
             Parallel.Invoke(
                 () => AcceptClient(userName),
-                () => RecieveAndRespond(userName)
+                () => RecieveAndRespond()
             );
         }
-        public void RecieveAndRespond(string userName)
+        public void RecieveAndRespond()
         {
             lock (messageLock)
             {
@@ -38,7 +38,7 @@ namespace Server
                     try
                     {
                         string message = client.Receive();
-                        Respond(message, userName);
+                        Respond(message);
                     }
                     catch (Exception ex)
                     {
@@ -55,18 +55,19 @@ namespace Server
                 Console.WriteLine("Connected");
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
-                client = new Client(stream, clientSocket, userName);
+                client = new Client(stream, clientSocket, client.userName);
                 clientList.Add(client);
-                Respond(client.userName + "has connected to the server", userName);
+                Respond(client.userName + "has connected to the server");
             }
             //clientSocket.Close();
             //serverSocket.Stop();
             //Console.WriteLine("Exit");
             //Console.ReadLine();
         }
-        private void Respond(string body, string userName)
+        private void Respond(string body)
         {
-             client.Send(body,userName);
+             client.Send(body);
         }
+
     }
 }
