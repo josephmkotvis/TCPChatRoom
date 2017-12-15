@@ -9,13 +9,16 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Client;
 using Server;
+using System.Net.Sockets;
 
 
 namespace TCPChatRoomForm
 {
     public partial class Form1 : Form
-    { 
-
+    {
+        System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
+        NetworkStream serverStream = default(NetworkStream);
+        string setnData = null;
 
         public Form1()
         {
@@ -62,7 +65,7 @@ namespace TCPChatRoomForm
 
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void AskName_Paint(object sender, PaintEventArgs e)

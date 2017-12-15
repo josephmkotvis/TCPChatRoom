@@ -12,17 +12,19 @@ namespace Server
         NetworkStream stream;
         TcpClient client;
         public string UserId;
-        HashSet <Client> clientList;
-        public Client(NetworkStream Stream, TcpClient Client)
+        public string userName;
+        public Client(NetworkStream Stream, TcpClient Client, String userName)
         {
             stream = Stream;
             client = Client;
             UserId = "495933b6-1762-47a1-b655-483510072e73";
+            this.userName = userName;
         }
-        public void Send(string Message)
+        public void Send(string Message, string userName)
         {
-            byte[] message = Encoding.ASCII.GetBytes(Message);
+            byte[] message = Encoding.ASCII.GetBytes(userName + ":" + Message);
             stream.Write(message, 0, message.Count());
+            //stream.Flush();
         }
         public string Receive()
         {
