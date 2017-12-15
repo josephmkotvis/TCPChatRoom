@@ -25,7 +25,7 @@ namespace Server
         public void Run()
         {
             Parallel.Invoke(
-                () => AcceptClient(userName),
+                () => AcceptClient(),
                 () => RecieveAndRespond()
             );
         }
@@ -47,7 +47,7 @@ namespace Server
                 }
             }
         }
-        private void AcceptClient(string userName)
+        private void AcceptClient()
         {
             while (true)
             {

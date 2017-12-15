@@ -10,8 +10,7 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            //new Server().Run();
-            Server.client.Receive();
+
         }
     }
 }

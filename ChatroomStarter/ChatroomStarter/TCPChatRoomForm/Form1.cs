@@ -19,6 +19,7 @@ namespace TCPChatRoomForm
         TcpClient clientSocket = new TcpClient();
         NetworkStream serverStream = default(NetworkStream);
         string sentData = null;
+        string userName;
 
         public Form1()
         {
@@ -31,7 +32,6 @@ namespace TCPChatRoomForm
   
         private void button1_Click(object sender, EventArgs e)
         {
-            Message();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -41,7 +41,7 @@ namespace TCPChatRoomForm
 
         private void label1_Click(object sender, EventArgs e)
         {
-
+            Send();
         }
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
@@ -87,17 +87,11 @@ namespace TCPChatRoomForm
         {
 
         }
-        private void Message()
-        {
-            if (this.InvokeRequired)
-                this.Invoke(new MethodInvoker(message));
-            else
-                textBox.Text = textBox1.Text + Environment.NewLine + " >> " + readData;
-        }
 
         private void Connect_Click(object sender, EventArgs e)
         {
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(textBox2.Text + "$");
+            // might need to replace Servers.Text
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(Servers.Text + "$");
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
         }
@@ -106,16 +100,36 @@ namespace TCPChatRoomForm
             while (true)
             {
                 byte[] receivedMessage = new byte[256];
-                stream.Read(receivedMessage, 0, receivedMessage.Length);
+                serverStream.Read(receivedMessage, 0, receivedMessage.Length);
                 UI.DisplayMessage(Encoding.ASCII.GetString(receivedMessage));
             }
         }
-        public void Send(string Message, string userName)
+        public void Send()
         {
-            byte[] message = Encoding.ASCII.GetBytes(userName + ":" + Message);
-            stream.Write(message, 0, message.Count());
+            while (true)
+            {
+                byte[] message = Encoding.ASCII.GetBytes(WriteName + ":" + MessageTextBox);
+                serverStream.Write(message, 0, message.Count());
+            }
             //stream.Flush();
         }
+        public void SetClientUserName()
+        {
+            userName = (WriteName + "");
+        }
+        public void ConnectToServer()
+        {
 
+        }
+
+        private void Servers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void SetUserName_Click(object sender, EventArgs e)
+        {
+            SetClientUserName();
+        }
     }
 }
