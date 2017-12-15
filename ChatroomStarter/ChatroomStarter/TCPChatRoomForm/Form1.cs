@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Client;
@@ -32,6 +33,8 @@ namespace TCPChatRoomForm
   
         private void button1_Click(object sender, EventArgs e)
         {
+            Thread messageSendThread = new Thread(Receive);
+            messageSendThread.Start();
         }
 
         private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -90,12 +93,14 @@ namespace TCPChatRoomForm
 
         private void Connect_Click(object sender, EventArgs e)
         {
+            Server.Run(userName);
+            //Server.Run(Specific IP, Specific port, userName);
             // might need to replace Servers.Text
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes(Servers.Text + "$");
-            serverStream.Write(outStream, 0, outStream.Length);
-            serverStream.Flush();
+            //byte[] outStream = System.Text.Encoding.ASCII.GetBytes(Servers.Text + "$");
+            //serverStream.Write(outStream, 0, outStream.Length);
+            //serverStream.Flush();
         }
-        public string Receive()
+        public void Receive()
         {
             while (true)
             {

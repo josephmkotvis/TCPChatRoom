@@ -10,22 +10,26 @@ using System.Threading.Tasks;
 
 namespace Server
 {
-    class Server
+    public class Server
     {
         public static Client client;
         TcpListener server;
         HashSet<Client> clientList = new HashSet<Client>();
         private Object messageLock = new object();
+        // que list of messages;
 
         public Server()
         {
             server = new TcpListener(IPAddress.Parse("127.0.0.1"), 9999);
             server.Start();
         }
-        public void Run()
+        public void Run(userName)
         {
+            // thread is etc.
+   
+            // change lambda to make them threads
             Parallel.Invoke(
-                () => AcceptClient(),
+                () => AcceptClient(userName),
                 () => RecieveAndRespond()
             );
         }
@@ -38,7 +42,7 @@ namespace Server
                     try
                     {
                         string message = client.Receive();
-                        Respond(message);
+                        Respond(client, message);
                     }
                     catch (Exception ex)
                     {
@@ -47,7 +51,7 @@ namespace Server
                 }
             }
         }
-        private void AcceptClient()
+        private void AcceptClient(userName)
         {
             while (true)
             {
@@ -55,18 +59,24 @@ namespace Server
                 Console.WriteLine("Connected");
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
-                client = new Client(stream, clientSocket, client.userName);
-                clientList.Add(client);
-                Respond(client.userName + "has connected to the server");
+                client = new Client(stream, clientSocket, userName);
+                clientList.Add(client);                
+                Respond(client, client.userName + "has connected to the server");
             }
             //clientSocket.Close();
             //serverSocket.Stop();
             //Console.WriteLine("Exit");
             //Console.ReadLine();
         }
-        private void Respond(string body)
+        private void Respond(Client client, string body)
         {
-             client.Send(body);
+            UpdateChatList(client, body);
+            client.Send(messageList);
+        }
+        private void UpdateChatList(Client client, string body)
+        {
+            Message chatAddition = new Message(client, body);
+            // add message to list message.add(chatAddition);
         }
     }
 }
