@@ -49,6 +49,7 @@ namespace Server
                     try
                     {
                         string message = client.Receive();
+                        Console.WriteLine(message);
                         Respond(client, message);
                     }
                     catch (Exception ex)
@@ -83,14 +84,16 @@ namespace Server
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
                 client = new Client(stream, clientSocket, userID, this);
+                Console.Write("User " + userID + " Connected");
                 userID++;
-                MessageReceiver = new Thread(new ThreadStart(() => ReceiveAndRespond(client)));
-                client.SetUserName();
+                //client.SetUserName();
                 lock (clientListLock)
                 {
                     //client.SetChatRoom();
                     clientList.Add(client);
                 }
+                MessageReceiver = new Thread(new ThreadStart(() => ReceiveAndRespond(client)));
+                MessageReceiver.Start();
                 Respond(client, client.userName + "has connected to the server");
 
             }

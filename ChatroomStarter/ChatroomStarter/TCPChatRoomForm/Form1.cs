@@ -21,9 +21,8 @@ namespace TCPChatRoomForm
         NetworkStream serverStream;
         public string UserId;
         public string userName;
-        string IP;
+        string IP = "127.0.0.1";
         int port = 9999;
-        string userMessage = null;
         List<string> messageLog = new List<string>();
         private Object receivedMessageLock = new object();
         Thread MessageReciever;
@@ -40,6 +39,7 @@ namespace TCPChatRoomForm
         
         private void Form1_Load(object sender, EventArgs e)
         {
+           
         }
         private void PromptServor_Paint(object sender, PaintEventArgs e)
         {
@@ -144,11 +144,18 @@ namespace TCPChatRoomForm
             {
                 while (true)
                 {
-                    byte[] receivedMessage = new byte[256];
-                    serverStream.Read(receivedMessage, 0, receivedMessage.Length);
-                    string receivedMessageString = Encoding.ASCII.GetString(receivedMessage);
-                    messageLog.Add(receivedMessageString);
-                    MessageBox.DataSource = messageLog;
+                    try
+                    {
+                        byte[] receivedMessage = new byte[256];
+                        serverStream.Read(receivedMessage, 0, receivedMessage.Length);
+                        string receivedMessageString = Encoding.ASCII.GetString(receivedMessage);
+                        messageLog.Add(receivedMessageString);
+                        MessageBox.DataSource = messageLog;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                    }
                 }
             }
         }
@@ -162,8 +169,8 @@ namespace TCPChatRoomForm
             //send username
             //send chatroom
             //message
-                byte[] message = Encoding.ASCII.GetBytes(SetNameTextBox + ":" + userMessage);
-                serverStream.Write(message, 0, message.Count());
+            byte[] message = Encoding.ASCII.GetBytes( MessageTextBox.Text);
+            serverStream.Write(message, 0, message.Count());
         }
         void SendUserName()
         {
