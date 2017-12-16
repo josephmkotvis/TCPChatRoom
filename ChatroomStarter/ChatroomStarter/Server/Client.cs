@@ -11,31 +11,32 @@ namespace Server
     {
         NetworkStream stream;
         TcpClient client;
-        public string UserId;
+        public int UserId;
         public string userName;
-        public Client(NetworkStream Stream, TcpClient Client)
+        public bool isOnline;
+        string chatRoom = "general";
+        Server server;
+        
+        public Client(NetworkStream Stream, TcpClient Client, int ID, Server server)
         {
             stream = Stream;
             client = Client;
-            UserId = "495933b6-1762-47a1-b655-483510072e73";
-                //set userID as user IP address
+            this.UserId = ID;
+            this.server = server;
+            //set userID as user IP address
+            //this.chatRoom = chatRoom;
         }
-        public void Send(Queue<Message> chatLog)
+        public void Send(Message broadCast)
         {
-            foreach( Message queMessage in chatLog)
-            {
-                byte[] message = Encoding.ASCII.GetBytes(queMessage.sender.userName + ": " + queMessage.Body);
+            byte[] message = Encoding.ASCII.GetBytes(broadCast.sender.userName + ": " + broadCast.Body);
                 stream.Write(message, 0, message.Count());
                 //stream.Flush();
-            }
-
         }
         public string Receive()
         {
             byte[] receivedMessage = new byte[256];
             stream.Read(receivedMessage, 0, receivedMessage.Length);
             string receivedMessageString = Encoding.ASCII.GetString(receivedMessage);
-            Console.WriteLine(receivedMessageString);
             return receivedMessageString;
         }
         public void SetUserName()

@@ -10,9 +10,8 @@ namespace Server
     {
         static void Main(string[] args)
         {
-            Server server1 = new Server("192.168.0.135");
+            Server server1 = new Server("127.0.0.1");
             server1.Run();
-            Console.ReadLine();
         }
     }
 }

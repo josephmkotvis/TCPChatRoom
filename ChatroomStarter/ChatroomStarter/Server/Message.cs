@@ -10,13 +10,15 @@ namespace Server
     {
         public Client sender;
         public string Body;
-        public string UserId;
+        public int UserId;
+        //string chatRoom = general;
         public Message(Client Sender, string Body)
         {
             sender = Sender;
             this.Body = Body;
-            UserId = sender?.UserId;
+            this.UserId = Sender.UserId;
+            //chatRoom;C:\Users\josep\Documents\DevCodeCamp\WEEK8\TCPChatRoom\ChatroomStarter\ChatroomStarter\Server\Program.cs
+            //maybe need a list of messages saved
         }
-        //maybe need a list of messages saved
     }
 }

@@ -41,12 +41,12 @@
             this.ServerIPTextBox = new System.Windows.Forms.TextBox();
             this.MessageBox = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.Server1Info = new System.Windows.Forms.Label();
-            this.Server2Info = new System.Windows.Forms.Label();
-            this.Server3Info = new System.Windows.Forms.Label();
-            this.PrivateServer1Info = new System.Windows.Forms.Label();
-            this.PrivateServer2Info = new System.Windows.Forms.Label();
             this.PrivateServer3Info = new System.Windows.Forms.Label();
+            this.PrivateServer2Info = new System.Windows.Forms.Label();
+            this.PrivateServer1Info = new System.Windows.Forms.Label();
+            this.Server3Info = new System.Windows.Forms.Label();
+            this.Server2Info = new System.Windows.Forms.Label();
+            this.Server1Info = new System.Windows.Forms.Label();
             this.AskUsernamePanel.SuspendLayout();
             this.PromptServor.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -180,18 +180,45 @@
             this.panel1.Controls.Add(this.Server1Info);
             this.panel1.Location = new System.Drawing.Point(606, 14);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(192, 208);
+            this.panel1.Size = new System.Drawing.Size(192, 635);
             this.panel1.TabIndex = 24;
             // 
-            // Server1Info
+            // PrivateServer3Info
             // 
-            this.Server1Info.AutoSize = true;
-            this.Server1Info.Location = new System.Drawing.Point(3, 12);
-            this.Server1Info.Name = "Server1Info";
-            this.Server1Info.Size = new System.Drawing.Size(158, 17);
-            this.Server1Info.TabIndex = 0;
-            this.Server1Info.Text = "Room1 - 192.168.0.135";
-            this.Server1Info.Click += new System.EventHandler(this.Server1Info_Click);
+            this.PrivateServer3Info.AutoSize = true;
+            this.PrivateServer3Info.Location = new System.Drawing.Point(3, 176);
+            this.PrivateServer3Info.Name = "PrivateServer3Info";
+            this.PrivateServer3Info.Size = new System.Drawing.Size(106, 17);
+            this.PrivateServer3Info.TabIndex = 5;
+            this.PrivateServer3Info.Text = "Privat Room 3 -";
+            this.PrivateServer3Info.Click += new System.EventHandler(this.PrivateServer3Info_Click);
+            // 
+            // PrivateServer2Info
+            // 
+            this.PrivateServer2Info.AutoSize = true;
+            this.PrivateServer2Info.Location = new System.Drawing.Point(3, 150);
+            this.PrivateServer2Info.Name = "PrivateServer2Info";
+            this.PrivateServer2Info.Size = new System.Drawing.Size(106, 17);
+            this.PrivateServer2Info.TabIndex = 4;
+            this.PrivateServer2Info.Text = "Privat Room 2 -";
+            // 
+            // PrivateServer1Info
+            // 
+            this.PrivateServer1Info.AutoSize = true;
+            this.PrivateServer1Info.Location = new System.Drawing.Point(3, 120);
+            this.PrivateServer1Info.Name = "PrivateServer1Info";
+            this.PrivateServer1Info.Size = new System.Drawing.Size(106, 17);
+            this.PrivateServer1Info.TabIndex = 3;
+            this.PrivateServer1Info.Text = "Privat Room 1 -";
+            // 
+            // Server3Info
+            // 
+            this.Server3Info.AutoSize = true;
+            this.Server3Info.Location = new System.Drawing.Point(3, 85);
+            this.Server3Info.Name = "Server3Info";
+            this.Server3Info.Size = new System.Drawing.Size(62, 17);
+            this.Server3Info.TabIndex = 2;
+            this.Server3Info.Text = "Room3 -";
             // 
             // Server2Info
             // 
@@ -203,42 +230,15 @@
             this.Server2Info.Text = "Room2 -";
             this.Server2Info.Click += new System.EventHandler(this.Server2Info_Click);
             // 
-            // Server3Info
+            // Server1Info
             // 
-            this.Server3Info.AutoSize = true;
-            this.Server3Info.Location = new System.Drawing.Point(3, 85);
-            this.Server3Info.Name = "Server3Info";
-            this.Server3Info.Size = new System.Drawing.Size(62, 17);
-            this.Server3Info.TabIndex = 2;
-            this.Server3Info.Text = "Room3 -";
-            // 
-            // PrivateServer1Info
-            // 
-            this.PrivateServer1Info.AutoSize = true;
-            this.PrivateServer1Info.Location = new System.Drawing.Point(3, 120);
-            this.PrivateServer1Info.Name = "PrivateServer1Info";
-            this.PrivateServer1Info.Size = new System.Drawing.Size(106, 17);
-            this.PrivateServer1Info.TabIndex = 3;
-            this.PrivateServer1Info.Text = "Privat Room 1 -";
-            // 
-            // PrivateServer2Info
-            // 
-            this.PrivateServer2Info.AutoSize = true;
-            this.PrivateServer2Info.Location = new System.Drawing.Point(3, 150);
-            this.PrivateServer2Info.Name = "PrivateServer2Info";
-            this.PrivateServer2Info.Size = new System.Drawing.Size(106, 17);
-            this.PrivateServer2Info.TabIndex = 4;
-            this.PrivateServer2Info.Text = "Privat Room 2 -";
-            // 
-            // PrivateServer3Info
-            // 
-            this.PrivateServer3Info.AutoSize = true;
-            this.PrivateServer3Info.Location = new System.Drawing.Point(3, 176);
-            this.PrivateServer3Info.Name = "PrivateServer3Info";
-            this.PrivateServer3Info.Size = new System.Drawing.Size(106, 17);
-            this.PrivateServer3Info.TabIndex = 5;
-            this.PrivateServer3Info.Text = "Privat Room 3 -";
-            this.PrivateServer3Info.Click += new System.EventHandler(this.PrivateServer3Info_Click);
+            this.Server1Info.AutoSize = true;
+            this.Server1Info.Location = new System.Drawing.Point(3, 12);
+            this.Server1Info.Name = "Server1Info";
+            this.Server1Info.Size = new System.Drawing.Size(126, 17);
+            this.Server1Info.TabIndex = 0;
+            this.Server1Info.Text = "Room1 - 127.0.0.1";
+            this.Server1Info.Click += new System.EventHandler(this.Server1Info_Click);
             // 
             // Form1
             // 

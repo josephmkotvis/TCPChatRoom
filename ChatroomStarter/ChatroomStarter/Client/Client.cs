@@ -14,6 +14,7 @@ namespace Client
         NetworkStream stream;
         public string UserId;
         public string userName;
+        public bool isOnline;
         public Client(string IP, int port, string userName)
         {
             clientSocket = new TcpClient();
