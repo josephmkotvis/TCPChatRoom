@@ -31,6 +31,9 @@ namespace TCPChatRoomForm
         public Form1()
         {
             InitializeComponent();
+            clientSocket = new TcpClient();
+            clientSocket.Connect(IPAddress.Parse(IP), port);
+            serverStream = clientSocket.GetStream();
             MessageReciever = new Thread(new ThreadStart(Receive));
             MessageReciever.Start();
         }
@@ -132,11 +135,7 @@ namespace TCPChatRoomForm
 
         private void SelectServer_Click(object sender, EventArgs e)
         {
-            SetIp();
-            clientSocket = new TcpClient();
-            clientSocket.Connect(IPAddress.Parse(IP), port);
-            // change port
-            serverStream = clientSocket.GetStream();
+
         }
 
         void Receive()
