@@ -14,7 +14,7 @@ namespace Server
         public int UserId;
         public string userName;
         public bool isOnline;
-        string chatRoom = "general";
+        public string chatRoom = "general";
         Server server;
         
         public Client(NetworkStream Stream, TcpClient Client, int ID, Server server)

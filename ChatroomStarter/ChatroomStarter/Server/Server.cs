@@ -67,6 +67,7 @@ namespace Server
                 {
                     if (chatLog.Count > 0)
                     {
+                        
                         Message message = chatLog.Dequeue();
                         SendMessagesToClients(message);
 
@@ -76,6 +77,8 @@ namespace Server
         }
         private void AcceptClient()
         {
+            // if starts with aashfuash
+            // .substring (number of aashfuash)
             int userID = 1;
             //if it stararts with the *^un
             while (true)
@@ -123,6 +126,7 @@ namespace Server
         {
             foreach (Client client in clientList)
             {
+                if (client.chatRoom == message.chatRoom)
                 // check chatroom
                 client.Send(message);
             }
