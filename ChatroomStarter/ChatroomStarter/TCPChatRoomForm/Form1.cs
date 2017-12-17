@@ -49,12 +49,6 @@ namespace TCPChatRoomForm
         {
 
         }
-
-        private void ServerIPTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void ChatBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -77,11 +71,6 @@ namespace TCPChatRoomForm
         private void PrivateServer3Info_Click(object sender, EventArgs e)
         {
 
-        }
-        public string SetIp()
-        {
-            IP = ServerIPTextBox.Text;
-            return IP;
         }
         //public string SetClientUserName()
         //{
@@ -128,16 +117,6 @@ namespace TCPChatRoomForm
         //    userMessage = null;
         //    return userMessage;
         //}
-        private void ServerCheckLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void SelectServer_Click(object sender, EventArgs e)
-        {
-
-        }
-
         void Receive()
         {
             lock (receivedMessageLock)
@@ -149,8 +128,7 @@ namespace TCPChatRoomForm
                         byte[] receivedMessage = new byte[256];
                         serverStream.Read(receivedMessage, 0, receivedMessage.Length);
                         string receivedMessageString = Encoding.ASCII.GetString(receivedMessage);
-                        messageLog.Add(receivedMessageString);
-                        MessageBox.DataSource = messageLog;
+                        MessageBox.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { MessageBox.Items.Add(receivedMessageString); });
                     }
                     catch (Exception ex)
                     {
@@ -177,9 +155,47 @@ namespace TCPChatRoomForm
             //send username
             //send chatroom
             //message
-            byte[] message = Encoding.ASCII.GetBytes(SetNameTextBox.Text);
-            serverStream.Write(message, 0, message.Count());
+            byte[] message = Encoding.ASCII.GetBytes("*^UN" + SetNameTextBox.Text);
+           serverStream.Write(message, 0, message.Count());
         }
+        void SendChatRoom()
+        {
+            byte[] message = Encoding.ASCII.GetBytes("*^CR" + ChatRoomName.Text);
+            serverStream.Write(message, 0, message.Count());
+            CheckChatRoomList();
+
+
+        }
+        void CheckChatRoomList()
+        {
+            foreach(string ChatRoom in ChatroomList.Items)
+            {
+                if (ChatRoomName.Text == ChatRoom)
+                {
+
+                        ChatroomList.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { ChatroomList.Items.Remove(ChatRoomName.Text); });
+                }
+            }
+            ChatroomList.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { ChatroomList.Items.Add(ChatRoomName.Text); });
+        }
+        private void SetCreateRoom_Click(object sender, EventArgs e)
+        {
+            SendChatRoom();
+        }
+        private void ChatroomList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                ChatRoomName.Text = (ChatroomList.SelectedItem.ToString());
+                SendChatRoom();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+        }
+
         //Task RunTasks()
         //{
         //    while (true)

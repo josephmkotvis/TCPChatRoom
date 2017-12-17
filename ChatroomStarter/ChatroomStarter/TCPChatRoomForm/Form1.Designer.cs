@@ -35,21 +35,14 @@
             this.AskUsernamePanel = new System.Windows.Forms.Panel();
             this.EnterUsernameLabel = new System.Windows.Forms.Label();
             this.SendMessageButton = new System.Windows.Forms.Button();
-            this.ServerCheckLabel = new System.Windows.Forms.Label();
             this.PromptServor = new System.Windows.Forms.Panel();
-            this.SelectServer = new System.Windows.Forms.Button();
-            this.ServerIPTextBox = new System.Windows.Forms.TextBox();
+            this.AskChatRoom = new System.Windows.Forms.Label();
             this.MessageBox = new System.Windows.Forms.ListBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.PrivateServer3Info = new System.Windows.Forms.Label();
-            this.PrivateServer2Info = new System.Windows.Forms.Label();
-            this.PrivateServer1Info = new System.Windows.Forms.Label();
-            this.Server3Info = new System.Windows.Forms.Label();
-            this.Server2Info = new System.Windows.Forms.Label();
-            this.Server1Info = new System.Windows.Forms.Label();
+            this.ChatRoomName = new System.Windows.Forms.TextBox();
+            this.SetCreateRoom = new System.Windows.Forms.Button();
+            this.ChatroomList = new System.Windows.Forms.ListBox();
             this.AskUsernamePanel.SuspendLayout();
             this.PromptServor.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -101,7 +94,7 @@
             // 
             this.EnterUsernameLabel.AutoSize = true;
             this.EnterUsernameLabel.Enabled = false;
-            this.EnterUsernameLabel.Location = new System.Drawing.Point(220, 14);
+            this.EnterUsernameLabel.Location = new System.Drawing.Point(205, 14);
             this.EnterUsernameLabel.Name = "EnterUsernameLabel";
             this.EnterUsernameLabel.Size = new System.Drawing.Size(145, 17);
             this.EnterUsernameLabel.TabIndex = 0;
@@ -119,44 +112,24 @@
             this.SendMessageButton.UseVisualStyleBackColor = false;
             this.SendMessageButton.Click += new System.EventHandler(this.SendMessageButton_Click);
             // 
-            // ServerCheckLabel
-            // 
-            this.ServerCheckLabel.AutoSize = true;
-            this.ServerCheckLabel.Location = new System.Drawing.Point(178, 11);
-            this.ServerCheckLabel.Name = "ServerCheckLabel";
-            this.ServerCheckLabel.Size = new System.Drawing.Size(216, 17);
-            this.ServerCheckLabel.TabIndex = 0;
-            this.ServerCheckLabel.Text = "Check Your Server On The Right";
-            this.ServerCheckLabel.Click += new System.EventHandler(this.ServerCheckLabel_Click);
-            // 
             // PromptServor
             // 
             this.PromptServor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.PromptServor.Controls.Add(this.ServerCheckLabel);
+            this.PromptServor.Controls.Add(this.AskChatRoom);
             this.PromptServor.Location = new System.Drawing.Point(12, 123);
             this.PromptServor.Name = "PromptServor";
             this.PromptServor.Size = new System.Drawing.Size(587, 45);
             this.PromptServor.TabIndex = 9;
             this.PromptServor.Paint += new System.Windows.Forms.PaintEventHandler(this.PromptServor_Paint);
             // 
-            // SelectServer
+            // AskChatRoom
             // 
-            this.SelectServer.Location = new System.Drawing.Point(501, 174);
-            this.SelectServer.Name = "SelectServer";
-            this.SelectServer.Size = new System.Drawing.Size(98, 50);
-            this.SelectServer.TabIndex = 21;
-            this.SelectServer.Text = "Submit Server IP";
-            this.SelectServer.UseVisualStyleBackColor = true;
-            this.SelectServer.Click += new System.EventHandler(this.SelectServer_Click);
-            // 
-            // ServerIPTextBox
-            // 
-            this.ServerIPTextBox.Location = new System.Drawing.Point(12, 174);
-            this.ServerIPTextBox.Multiline = true;
-            this.ServerIPTextBox.Name = "ServerIPTextBox";
-            this.ServerIPTextBox.Size = new System.Drawing.Size(493, 49);
-            this.ServerIPTextBox.TabIndex = 22;
-            this.ServerIPTextBox.TextChanged += new System.EventHandler(this.ServerIPTextBox_TextChanged);
+            this.AskChatRoom.AutoSize = true;
+            this.AskChatRoom.Location = new System.Drawing.Point(142, 11);
+            this.AskChatRoom.Name = "AskChatRoom";
+            this.AskChatRoom.Size = new System.Drawing.Size(299, 17);
+            this.AskChatRoom.TabIndex = 0;
+            this.AskChatRoom.Text = "Enter The Chat Room You Would Like To Join";
             // 
             // MessageBox
             // 
@@ -168,87 +141,44 @@
             this.MessageBox.TabIndex = 23;
             this.MessageBox.SelectedIndexChanged += new System.EventHandler(this.MessageBox_SelectedIndexChanged);
             // 
-            // panel1
+            // ChatRoomName
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.HighlightText;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.PrivateServer3Info);
-            this.panel1.Controls.Add(this.PrivateServer2Info);
-            this.panel1.Controls.Add(this.PrivateServer1Info);
-            this.panel1.Controls.Add(this.Server3Info);
-            this.panel1.Controls.Add(this.Server2Info);
-            this.panel1.Controls.Add(this.Server1Info);
-            this.panel1.Location = new System.Drawing.Point(606, 14);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(192, 635);
-            this.panel1.TabIndex = 24;
+            this.ChatRoomName.Location = new System.Drawing.Point(12, 174);
+            this.ChatRoomName.Multiline = true;
+            this.ChatRoomName.Name = "ChatRoomName";
+            this.ChatRoomName.Size = new System.Drawing.Size(493, 49);
+            this.ChatRoomName.TabIndex = 27;
             // 
-            // PrivateServer3Info
+            // SetCreateRoom
             // 
-            this.PrivateServer3Info.AutoSize = true;
-            this.PrivateServer3Info.Location = new System.Drawing.Point(3, 176);
-            this.PrivateServer3Info.Name = "PrivateServer3Info";
-            this.PrivateServer3Info.Size = new System.Drawing.Size(106, 17);
-            this.PrivateServer3Info.TabIndex = 5;
-            this.PrivateServer3Info.Text = "Privat Room 3 -";
-            this.PrivateServer3Info.Click += new System.EventHandler(this.PrivateServer3Info_Click);
+            this.SetCreateRoom.Location = new System.Drawing.Point(501, 174);
+            this.SetCreateRoom.Name = "SetCreateRoom";
+            this.SetCreateRoom.Size = new System.Drawing.Size(98, 52);
+            this.SetCreateRoom.TabIndex = 28;
+            this.SetCreateRoom.Text = "Set/Create Room";
+            this.SetCreateRoom.UseVisualStyleBackColor = true;
+            this.SetCreateRoom.Click += new System.EventHandler(this.SetCreateRoom_Click);
             // 
-            // PrivateServer2Info
+            // ChatroomList
             // 
-            this.PrivateServer2Info.AutoSize = true;
-            this.PrivateServer2Info.Location = new System.Drawing.Point(3, 150);
-            this.PrivateServer2Info.Name = "PrivateServer2Info";
-            this.PrivateServer2Info.Size = new System.Drawing.Size(106, 17);
-            this.PrivateServer2Info.TabIndex = 4;
-            this.PrivateServer2Info.Text = "Privat Room 2 -";
-            // 
-            // PrivateServer1Info
-            // 
-            this.PrivateServer1Info.AutoSize = true;
-            this.PrivateServer1Info.Location = new System.Drawing.Point(3, 120);
-            this.PrivateServer1Info.Name = "PrivateServer1Info";
-            this.PrivateServer1Info.Size = new System.Drawing.Size(106, 17);
-            this.PrivateServer1Info.TabIndex = 3;
-            this.PrivateServer1Info.Text = "Privat Room 1 -";
-            // 
-            // Server3Info
-            // 
-            this.Server3Info.AutoSize = true;
-            this.Server3Info.Location = new System.Drawing.Point(3, 85);
-            this.Server3Info.Name = "Server3Info";
-            this.Server3Info.Size = new System.Drawing.Size(62, 17);
-            this.Server3Info.TabIndex = 2;
-            this.Server3Info.Text = "Room3 -";
-            // 
-            // Server2Info
-            // 
-            this.Server2Info.AutoSize = true;
-            this.Server2Info.Location = new System.Drawing.Point(3, 50);
-            this.Server2Info.Name = "Server2Info";
-            this.Server2Info.Size = new System.Drawing.Size(62, 17);
-            this.Server2Info.TabIndex = 1;
-            this.Server2Info.Text = "Room2 -";
-            this.Server2Info.Click += new System.EventHandler(this.Server2Info_Click);
-            // 
-            // Server1Info
-            // 
-            this.Server1Info.AutoSize = true;
-            this.Server1Info.Location = new System.Drawing.Point(3, 12);
-            this.Server1Info.Name = "Server1Info";
-            this.Server1Info.Size = new System.Drawing.Size(126, 17);
-            this.Server1Info.TabIndex = 0;
-            this.Server1Info.Text = "Room1 - 127.0.0.1";
-            this.Server1Info.Click += new System.EventHandler(this.Server1Info_Click);
+            this.ChatroomList.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ChatroomList.FormattingEnabled = true;
+            this.ChatroomList.ItemHeight = 16;
+            this.ChatroomList.Location = new System.Drawing.Point(615, 12);
+            this.ChatroomList.Name = "ChatroomList";
+            this.ChatroomList.Size = new System.Drawing.Size(184, 628);
+            this.ChatroomList.TabIndex = 29;
+            this.ChatroomList.SelectedIndexChanged += new System.EventHandler(this.ChatroomList_SelectedIndexChanged);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(824, 771);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.ChatroomList);
+            this.Controls.Add(this.SetCreateRoom);
+            this.Controls.Add(this.ChatRoomName);
             this.Controls.Add(this.MessageBox);
-            this.Controls.Add(this.ServerIPTextBox);
-            this.Controls.Add(this.SelectServer);
             this.Controls.Add(this.SendMessageButton);
             this.Controls.Add(this.AskUsernamePanel);
             this.Controls.Add(this.MessageTextBox);
@@ -263,8 +193,6 @@
             this.AskUsernamePanel.PerformLayout();
             this.PromptServor.ResumeLayout(false);
             this.PromptServor.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -278,18 +206,12 @@
         private System.Windows.Forms.Panel AskUsernamePanel;
         private System.Windows.Forms.Label EnterUsernameLabel;
         private System.Windows.Forms.Button SendMessageButton;
-        private System.Windows.Forms.Label ServerCheckLabel;
         private System.Windows.Forms.Panel PromptServor;
-        private System.Windows.Forms.Button SelectServer;
-        private System.Windows.Forms.TextBox ServerIPTextBox;
         private System.Windows.Forms.ListBox MessageBox;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label Server2Info;
-        private System.Windows.Forms.Label Server1Info;
-        private System.Windows.Forms.Label PrivateServer3Info;
-        private System.Windows.Forms.Label PrivateServer2Info;
-        private System.Windows.Forms.Label PrivateServer1Info;
-        private System.Windows.Forms.Label Server3Info;
+        private System.Windows.Forms.Label AskChatRoom;
+        private System.Windows.Forms.TextBox ChatRoomName;
+        private System.Windows.Forms.Button SetCreateRoom;
+        private System.Windows.Forms.ListBox ChatroomList;
     }
 }
 

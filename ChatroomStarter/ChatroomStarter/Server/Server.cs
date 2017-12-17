@@ -17,9 +17,11 @@ namespace Server
         public Queue<Message> chatLog;
         Object messageLock;
         Object clientListLock;
+        Object setLock;
         Thread ClientAcceptor;
         Thread MessageReceiver;
         Thread MessageBroadcaster;
+        List<Thread> Recievers;
         //List<Queue<String[Message]
         // list of ques
         public Server(string IP)
@@ -28,7 +30,9 @@ namespace Server
             clientList = new HashSet<Client>();
             chatLog = new Queue<Message>();
             messageLock = new Object();
+            Recievers = new List<Thread>();
             clientListLock = new Object();
+            setLock = new object();
             server.Start();
         }
         public void Run()
@@ -44,19 +48,29 @@ namespace Server
             while (true)
             {
                 // match chatroom
-                lock (messageLock)
-                {
                     try
                     {
                         string message = client.Receive();
-                        Console.WriteLine(message);
-                        Respond(client, message);
+                        if (message.StartsWith("*^CR"))
+                        {
+                            SetChatRoom(message);
+                        }
+                        else if (message.StartsWith("*^UN"))
+                        {
+                            client.userName = message.Substring(4);
+                            Console.WriteLine("User " + client.userId + " has set their user name to " + client.userName);
+                        }
+                        else
+                        {
+                            Console.WriteLine(message);
+                            Respond(client, message);
+                        }
+
                     }
                     catch (Exception ex)
                     {
                         Console.WriteLine(ex.ToString());
                     }
-                }
             }
         }
         private void Broadcast()
@@ -69,6 +83,7 @@ namespace Server
                     {
                         
                         Message message = chatLog.Dequeue();
+
                         SendMessagesToClients(message);
 
                     }
@@ -77,27 +92,27 @@ namespace Server
         }
         private void AcceptClient()
         {
-            // if starts with aashfuash
-            // .substring (number of aashfuash)
             int userID = 1;
             //if it stararts with the *^un
             while (true)
             {
+
                 TcpClient clientSocket = default(TcpClient);
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
                 client = new Client(stream, clientSocket, userID, this);
                 Console.Write("User " + userID + " Connected");
                 userID++;
-                //client.SetUserName();
                 lock (clientListLock)
                 {
                     //client.SetChatRoom();
                     clientList.Add(client);
                 }
                 MessageReceiver = new Thread(new ThreadStart(() => ReceiveAndRespond(client)));
+                
                 MessageReceiver.Start();
-                Respond(client, client.userName + "has connected to the server");
+                Recievers.Add(MessageReceiver);
+                //Respond(client, client.userName + "has connected to the server");
 
             }
             //clientSocket.Close();
@@ -113,6 +128,11 @@ namespace Server
         //{
         //    if client.UserName
         //}
+        private void SetChatRoom(string message)
+        {
+                client.chatRoom = message.Substring(4);
+                Console.WriteLine( client.userName + " has set their chat room to " + client.chatRoom);
+        }
         private void Respond(Client client, string body)
         {
             UpdateChatList(client, body);
@@ -127,8 +147,11 @@ namespace Server
             foreach (Client client in clientList)
             {
                 if (client.chatRoom == message.chatRoom)
+                {
+                    Console.WriteLine(client.userName + " is sending the message " + message.Body + " to the chat room " + client.chatRoom);
+                    client.Send(message);
+                }
                 // check chatroom
-                client.Send(message);
             }
         }
 
