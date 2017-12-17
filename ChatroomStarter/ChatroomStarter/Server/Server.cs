@@ -18,9 +18,9 @@ namespace Server
         Object messageLock;
         Object clientListLock;
         Object setLock;
-        Thread ClientAcceptor;
-        Thread MessageReceiver;
-        Thread MessageBroadcaster;
+        private Thread ClientAcceptor;
+        private Thread MessageReceiver;
+        private Thread MessageBroadcaster;
         List<Thread> Recievers;
         //List<Queue<String[Message]
         // list of ques
@@ -47,30 +47,46 @@ namespace Server
         {
             while (true)
             {
-                // match chatroom
-                    try
-                    {
-                        string message = client.Receive();
-                        if (message.StartsWith("*^CR"))
-                        {
-                            SetChatRoom(message);
-                        }
-                        else if (message.StartsWith("*^UN"))
-                        {
-                            client.userName = message.Substring(4);
-                            Console.WriteLine("User " + client.userId + " has set their user name to " + client.userName);
-                        }
-                        else
-                        {
-                            Console.WriteLine(message);
-                            Respond(client, message);
-                        }
+                try
+                {
+                    //
+                    // changed client.receive to return a message object instead of string then just enqueue it bypassing respond and update chat log
+                    //
+                   
+                    Message message = client.Receive();
+                    chatLog.Enqueue(message);
 
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.ToString());
-                    }
+                    //
+                    //commented out this portion because moved the checks to the server client. (did not move ID one because already commented out
+                    //
+
+                    //if (message.StartsWith("*^ID"))
+                    //{
+                    //    currentID = Convert.ToInt32(message);
+                    //}
+                    //if (message.StartsWith("*^CR"))
+                    //{
+                    //    SetChatRoom(message);
+                    //}
+                    //else if (message.StartsWith("*^UN"))
+                    //{
+                    //    client.userName = message.Substring(4);
+                    //    Console.WriteLine("User " + client.userId + " has set their user name to " + client.userName);
+                    //}
+                    //else
+                    //{
+                    //    Console.WriteLine(message);
+                    //    Respond(client, message);
+                    //}
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.ToString());
+                    //
+                    //here is where you would notify if someone left the client.... not just chatroom
+                    //
+                }
+
             }
         }
         private void Broadcast()
@@ -93,7 +109,6 @@ namespace Server
         private void AcceptClient()
         {
             int userID = 1;
-            //if it stararts with the *^un
             while (true)
             {
 
@@ -101,18 +116,16 @@ namespace Server
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
                 client = new Client(stream, clientSocket, userID, this);
-                Console.Write("User " + userID + " Connected");
+                Console.Write("User " + client.userId + " Connected");
                 userID++;
                 lock (clientListLock)
                 {
-                    //client.SetChatRoom();
                     clientList.Add(client);
                 }
                 MessageReceiver = new Thread(new ThreadStart(() => ReceiveAndRespond(client)));
                 
                 MessageReceiver.Start();
                 Recievers.Add(MessageReceiver);
-                //Respond(client, client.userName + "has connected to the server");
 
             }
             //clientSocket.Close();
@@ -120,6 +133,7 @@ namespace Server
             //Console.WriteLine("Exit");
             //Console.ReadLine();
         }
+
         //public void Receive()
         //{
 
@@ -130,8 +144,10 @@ namespace Server
         //}
         private void SetChatRoom(string message)
         {
-                client.chatRoom = message.Substring(4);
-                Console.WriteLine( client.userName + " has set their chat room to " + client.chatRoom);
+            client.chatRoom = message.Substring(4);
+            Message joinMessage = new Message(client, "has joined.");
+            SendMessagesToClients(joinMessage);
+
         }
         private void Respond(Client client, string body)
         {

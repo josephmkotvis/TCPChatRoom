@@ -20,7 +20,6 @@ namespace Server
             this.UserId = Sender.userId;
             this.chatRoom = sender.chatRoom;
             //chatRoom;C:\Users\josep\Documents\DevCodeCamp\WEEK8\TCPChatRoom\ChatroomStarter\ChatroomStarter\Server\Program.cs
-            //maybe need a list of messages saved
         }
     }
 }

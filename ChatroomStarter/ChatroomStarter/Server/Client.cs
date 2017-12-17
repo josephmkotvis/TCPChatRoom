@@ -32,22 +32,57 @@ namespace Server
             stream.Write(message, 0, message.Count());
                 //stream.Flush();
         }
-        public string Receive()
-        {
+        public Message Receive()
+        { 
+            //
+            //recieves string and calls function to generate message object and check for sentinals
+            //
             byte[] receivedMessage = new byte[256];
             stream.Read(receivedMessage, 0, receivedMessage.Length);
-            string receivedMessageString = Encoding.ASCII.GetString(CleanMessage(receivedMessage));
-            return receivedMessageString;
+            string receivedMessageString = Encoding.ASCII.GetString(RemoveZerozInMessage(receivedMessage));
+            Message checkedMessage = CheckMessage(receivedMessageString);
+            return checkedMessage;
+
         }
-        public void SetUserName()
+
+        private Message CheckMessage(string message)
         {
-            byte[] receivedUserName = new byte[256];
-            stream.Read(receivedUserName, 0, receivedUserName.Length);
-            string receivedUserNameString = Encoding.ASCII.GetString(CleanMessage(receivedUserName));
-            userName = receivedUserNameString;
-            Console.WriteLine("User " + userId + " has set their user name to " + userName);
+            //
+            // this function now checks for sentinals (the signifiers) and creates a message accordingly and changes what needs to be changed.
+            // the message is then sent to the server for boadcast
+            //
+
+            if (message.StartsWith("*^CR"))
+            {
+                //
+                // calls SetChatRoom to change chatromm and then creates the joined message to broadcast
+                //
+
+                SetChatRoom(message);
+                Message joinMessage = new Message(this, "has joined.");
+                return joinMessage;
+            }
+            else if (message.StartsWith("*^UN"))
+            {
+                //saves old username, changes username, then creates a message to show what the name was changed from 
+                //
+                //
+                string oldName = userName;
+                userName = message.Substring(4);
+                Message namechangedMessage = new Message(this, "has changed name from " + oldName + " to " + userName + ".");
+                return namechangedMessage;
+            }
+            else
+            {
+                //
+                //creates a regular message if no setinal encountered.
+                //
+                Message sentMessage = new Message(this, message);
+                return sentMessage;
+            }
         }
-        private byte[] CleanMessage(byte[] message)
+
+        private byte[] RemoveZerozInMessage(byte[] message)
         {
             int i = message.Length - 1;
             while (message[i] == 0)
@@ -61,8 +96,6 @@ namespace Server
         public void SetChatRoom(string message)
         {
             chatRoom = message.Substring(4);
-            Console.WriteLine(userName + " has set their chat room to " + chatRoom);
         }
-
     }
 }

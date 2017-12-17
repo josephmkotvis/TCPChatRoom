@@ -195,7 +195,17 @@ namespace TCPChatRoomForm
             }
 
         }
-
+        private byte[] RemoveZerozInMessage(byte[] message)
+        {
+            int i = message.Length - 1;
+            while (message[i] == 0)
+            {
+                --i;
+            }
+            byte[] CleanMessage = new byte[i + 1];
+            Array.Copy(message, CleanMessage, i + 1);
+            return CleanMessage;
+        }
         //Task RunTasks()
         //{
         //    while (true)
