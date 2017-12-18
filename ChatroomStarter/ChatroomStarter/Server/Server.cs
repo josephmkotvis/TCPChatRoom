@@ -15,10 +15,8 @@ namespace Server
         TcpListener server;
         HashSet<Client> clientList;
         public Queue<Message> chatLog;
-        Object messageLock;
-        Object clientListLock;
-        Object setLock;
-        Object removeLock;
+        Object messageKey;
+        Object clientListKey;
         private Thread ClientAcceptor;
         private Thread MessageReceiver;
         private Thread MessageBroadcaster;
@@ -27,10 +25,8 @@ namespace Server
             server = new TcpListener(IPAddress.Parse(IP), 9999);
             clientList = new HashSet<Client>();
             chatLog = new Queue<Message>();
-            messageLock = new Object();
-            clientListLock = new Object();
-            setLock = new object();
-            removeLock = new object();
+            messageKey = new Object();
+            clientListKey = new Object();
             server.Start();
         }
         public void Run()
@@ -40,7 +36,6 @@ namespace Server
             MessageBroadcaster = new Thread(new ThreadStart(Broadcast));
             MessageBroadcaster.Start();
         }
-
         public void ReceiveAndRespond(Client client)
         {
             while (true)
@@ -78,7 +73,7 @@ namespace Server
         {
             while (true)
             {
-                lock (messageLock)
+                lock (messageKey)
                 {
                     if (chatLog.Count > 0)
                     {        
@@ -99,7 +94,7 @@ namespace Server
                 client = new Client(stream, clientSocket, userID, this);
                 Console.Write("User " + client.userId + " Connected");
                 userID++;
-                lock (clientListLock)
+                lock (clientListKey)
                 {
                     clientList.Add(client);
                 }
