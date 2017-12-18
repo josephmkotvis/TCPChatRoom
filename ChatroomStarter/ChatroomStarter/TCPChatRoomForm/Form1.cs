@@ -69,10 +69,7 @@ namespace TCPChatRoomForm
                         serverStream.Read(receivedMessage, 0, receivedMessage.Length);
                         string receivedMessageString = Encoding.ASCII.GetString(receivedMessage);
                         ChatTextBox.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { ChatTextBox.AppendText(receivedMessageString); });
-                        CurrentUserName.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentUserName.Clear(); });
-                        CurrentChatRoom.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentChatRoom.Clear(); });
-                        CurrentUserName.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentUserName.AppendText("Current User Name: " + SetNameTextBox.Text + "."); });
-                        CurrentChatRoom.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentChatRoom.AppendText("Current Chat Room: " + ChatRoomName.Text + "."); });
+                        ResetForm();
                     }
                     catch (Exception ex)
                     {
@@ -80,6 +77,13 @@ namespace TCPChatRoomForm
                     }
                 }
             }
+        }
+        void ResetForm()
+        {
+            CurrentUserName.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentUserName.Clear(); });
+            CurrentChatRoom.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentChatRoom.Clear(); });
+            CurrentUserName.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentUserName.AppendText("Current User Name: " + SetNameTextBox.Text + "."); });
+            CurrentChatRoom.BeginInvoke((System.Windows.Forms.MethodInvoker)delegate () { CurrentChatRoom.AppendText("Current Chat Room: " + ChatRoomName.Text + "."); });
         }
         void Send()
         {
