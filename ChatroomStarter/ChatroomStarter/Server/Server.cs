@@ -22,7 +22,6 @@ namespace Server
         private Thread ClientAcceptor;
         private Thread MessageReceiver;
         private Thread MessageBroadcaster;
-        List<Thread> Recievers;
         //List<Queue<String[Message]
         // list of ques
         public Server(string IP)
@@ -31,7 +30,6 @@ namespace Server
             clientList = new HashSet<Client>();
             chatLog = new Queue<Message>();
             messageLock = new Object();
-            Recievers = new List<Thread>();
             clientListLock = new Object();
             setLock = new object();
             removeLock = new object();
@@ -61,14 +59,12 @@ namespace Server
                     {
                         chatLog.Enqueue(message);
                     }
-
                 }
                 catch
                 {
                     Message logOffMessage = new Message(client, client.userName + " has logged off.");
                     chatLog.Enqueue(logOffMessage);
                 }
-
             }
         }
           public void RemoveClient(Client removedClient)
@@ -81,7 +77,6 @@ namespace Server
                 }
             }
         }
-
         private void Broadcast()
         {
             while (true)
@@ -89,12 +84,9 @@ namespace Server
                 lock (messageLock)
                 {
                     if (chatLog.Count > 0)
-                    {
-                        
+                    {        
                         Message message = chatLog.Dequeue();
-
                         SendMessagesToClients(message);
-
                     }
                 }
             }
@@ -104,7 +96,6 @@ namespace Server
             int userID = 1;
             while (true)
             {
-
                 TcpClient clientSocket = default(TcpClient);
                 clientSocket = server.AcceptTcpClient();
                 NetworkStream stream = clientSocket.GetStream();
@@ -116,10 +107,7 @@ namespace Server
                     clientList.Add(client);
                 }
                 MessageReceiver = new Thread(new ThreadStart(() => ReceiveAndRespond(client)));
-                
                 MessageReceiver.Start();
-                Recievers.Add(MessageReceiver);
-
             }
         }
         private void SetChatRoom(string message)
@@ -127,7 +115,6 @@ namespace Server
             client.chatRoom = message.Substring(4);
             Message joinMessage = new Message(client, "has joined.");
             SendMessagesToClients(joinMessage);
-
         }
         private void SendMessagesToClients(Message message)
         {
