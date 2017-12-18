@@ -22,8 +22,6 @@ namespace Server
         private Thread ClientAcceptor;
         private Thread MessageReceiver;
         private Thread MessageBroadcaster;
-        //List<Queue<String[Message]
-        // list of ques
         public Server(string IP)
         {
             server = new TcpListener(IPAddress.Parse(IP), 9999);

@@ -25,6 +25,7 @@
             this.SetNameTextBox = new System.Windows.Forms.TextBox();
             this.MessageTextBox = new System.Windows.Forms.TextBox();
             this.AskUsernamePanel = new System.Windows.Forms.Panel();
+            this.EnterUsernameLabel = new System.Windows.Forms.Label();
             this.SendMessageButton = new System.Windows.Forms.Button();
             this.PromptServor = new System.Windows.Forms.Panel();
             this.AskChatRoom = new System.Windows.Forms.Label();
@@ -32,7 +33,6 @@
             this.SetCreateRoom = new System.Windows.Forms.Button();
             this.ChatroomList = new System.Windows.Forms.ListBox();
             this.ChatTextBox = new System.Windows.Forms.TextBox();
-            this.EnterUsernameLabel = new System.Windows.Forms.Label();
             this.LogOff = new System.Windows.Forms.Button();
             this.Info = new System.Windows.Forms.Panel();
             this.InfoLabel = new System.Windows.Forms.Label();
@@ -86,6 +86,15 @@
             this.AskUsernamePanel.Size = new System.Drawing.Size(497, 30);
             this.AskUsernamePanel.TabIndex = 16;
             this.AskUsernamePanel.Paint += new System.Windows.Forms.PaintEventHandler(this.AskUsernamePanel_Paint);
+            // 
+            // EnterUsernameLabel
+            // 
+            this.EnterUsernameLabel.AutoSize = true;
+            this.EnterUsernameLabel.Location = new System.Drawing.Point(164, 6);
+            this.EnterUsernameLabel.Name = "EnterUsernameLabel";
+            this.EnterUsernameLabel.Size = new System.Drawing.Size(145, 17);
+            this.EnterUsernameLabel.TabIndex = 1;
+            this.EnterUsernameLabel.Text = "Enter Your Username";
             // 
             // SendMessageButton
             // 
@@ -158,15 +167,6 @@
             this.ChatTextBox.UseSystemPasswordChar = true;
             this.ChatTextBox.TextChanged += new System.EventHandler(this.ChatTextBox_TextChanged);
             // 
-            // EnterUsernameLabel
-            // 
-            this.EnterUsernameLabel.AutoSize = true;
-            this.EnterUsernameLabel.Location = new System.Drawing.Point(164, 6);
-            this.EnterUsernameLabel.Name = "EnterUsernameLabel";
-            this.EnterUsernameLabel.Size = new System.Drawing.Size(145, 17);
-            this.EnterUsernameLabel.TabIndex = 1;
-            this.EnterUsernameLabel.Text = "Enter Your Username";
-            // 
             // LogOff
             // 
             this.LogOff.CausesValidation = false;
@@ -198,16 +198,20 @@
             // 
             // CurrentUserName
             // 
+            this.CurrentUserName.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.CurrentUserName.Location = new System.Drawing.Point(8, 162);
             this.CurrentUserName.Name = "CurrentUserName";
+            this.CurrentUserName.ReadOnly = true;
             this.CurrentUserName.Size = new System.Drawing.Size(246, 22);
             this.CurrentUserName.TabIndex = 34;
             this.CurrentUserName.TextChanged += new System.EventHandler(this.CurrentUserName_TextChanged);
             // 
             // CurrentChatRoom
             // 
+            this.CurrentChatRoom.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.CurrentChatRoom.Location = new System.Drawing.Point(253, 162);
             this.CurrentChatRoom.Name = "CurrentChatRoom";
+            this.CurrentChatRoom.ReadOnly = true;
             this.CurrentChatRoom.Size = new System.Drawing.Size(252, 22);
             this.CurrentChatRoom.TabIndex = 35;
             this.CurrentChatRoom.TextChanged += new System.EventHandler(this.CurrentChatRoom_TextChanged);
