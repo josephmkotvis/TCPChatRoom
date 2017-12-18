@@ -50,7 +50,6 @@ namespace Server
                     Message message = client.Receive();
                     if (message.Body.StartsWith("*^LON"))
                     {
-
                         RemoveClient(message.sender);
                     }
                     else

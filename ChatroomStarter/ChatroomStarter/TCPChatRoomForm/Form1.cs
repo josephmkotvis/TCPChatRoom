@@ -48,56 +48,11 @@ namespace TCPChatRoomForm
             ChatRoomName.Text = defaultChatRoom;
             SendChatRoom();
         }
-        private void PromptServor_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-        private void AskUsernamePanel_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-        private void ChatBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-        private void MessageBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Server1Info_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Server2Info_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void PrivateServer3Info_Click(object sender, EventArgs e)
-        {
-
-        }
+       
         private void SetUserName_Click(object sender, EventArgs e)
         {
             SendUserName();
         }
-        private void SetNameTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MessageTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void EnterUsernameLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void SendMessageButton_Click(object sender, EventArgs e)
         {
             Send();
@@ -188,28 +143,64 @@ namespace TCPChatRoomForm
             Array.Copy(message, CleanMessage, i + 1);
             return CleanMessage;
         }
-
-        private void ChatTextBox_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void ChatRoomName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
         private void LogOff_Click(object sender, EventArgs e)
         {
             SendLogOff();
             Close();
         }
+        private void ChatTextBox_TextChanged(object sender, EventArgs e)
+        {
 
+        }
+        private void ChatRoomName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
         private void CurrentChatRoom_TextChanged(object sender, EventArgs e)
         {
 
         }
-
         private void CurrentUserName_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void PromptServor_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        private void AskUsernamePanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+        private void ChatBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void MessageBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void Server1Info_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void Server2Info_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void PrivateServer3Info_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void SetNameTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void MessageTextBox_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+        private void EnterUsernameLabel_Click(object sender, EventArgs e)
         {
 
         }
