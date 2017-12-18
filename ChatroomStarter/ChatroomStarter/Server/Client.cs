@@ -10,11 +10,11 @@ namespace Server
     public class Client
     {
         NetworkStream stream;
-        TcpClient client;
+        public TcpClient client;
         public int userId;
         public string userName;
         public bool isOnline;
-        public string chatRoom = "general";
+        public string chatRoom;
         Server server;
         
         public Client(NetworkStream Stream, TcpClient Client, int ID, Server server)
@@ -23,28 +23,24 @@ namespace Server
             client = Client;
             this.userId = ID;
             this.server = server;
-            //set userID as user IP address
-            //this.chatRoom = chatRoom;
         }
         public void Send(Message broadCast)
         {
-            byte[] message = Encoding.ASCII.GetBytes(broadCast.sender.userName + ": " + broadCast.Body);
+            byte[] message = Encoding.ASCII.GetBytes(broadCast.sender.userName + ": " + broadCast.Body + Environment.NewLine);
             stream.Write(message, 0, message.Count());
-                //stream.Flush();
         }
         public Message Receive()
-        { 
+        {
             //
             //recieves string and calls function to generate message object and check for sentinals
             //
-            byte[] receivedMessage = new byte[256];
-            stream.Read(receivedMessage, 0, receivedMessage.Length);
-            string receivedMessageString = Encoding.ASCII.GetString(RemoveZerozInMessage(receivedMessage));
-            Message checkedMessage = CheckMessage(receivedMessageString);
-            return checkedMessage;
-
+                byte[] receivedMessage = new byte[256];
+                stream.Read(receivedMessage, 0, receivedMessage.Length);
+                string receivedMessageString = Encoding.ASCII.GetString(RemoveZerozInMessage(receivedMessage));
+                Message checkedMessage = CheckMessage(receivedMessageString);
+                return checkedMessage;
+                // on client side check if .isconnected. If not then send a message like *^NC and then run it through"l
         }
-
         private Message CheckMessage(string message)
         {
             //
@@ -57,9 +53,10 @@ namespace Server
                 //
                 // calls SetChatRoom to change chatromm and then creates the joined message to broadcast
                 //
-
+                Message leftMessage = new Message(this, "has left the chatroom " + chatRoom +"." + Environment.NewLine);
+                server.chatLog.Enqueue(leftMessage);
                 SetChatRoom(message);
-                Message joinMessage = new Message(this, "has joined.");
+                Message joinMessage = new Message(this, "has joined the chatroom " + chatRoom +"."  +Environment.NewLine);
                 return joinMessage;
             }
             else if (message.StartsWith("*^UN"))
@@ -69,15 +66,21 @@ namespace Server
                 //
                 string oldName = userName;
                 userName = message.Substring(4);
-                Message namechangedMessage = new Message(this, "has changed name from " + oldName + " to " + userName + ".");
+                //if (oldName = "NewUser")
+                Message namechangedMessage = new Message(this, "has changed name from " + oldName + " to " + userName + "." + Environment.NewLine);
                 return namechangedMessage;
+            }
+            else if (message.StartsWith("*^LO"))
+            {
+                Message clientRemoved = new Message(this, "*^LON"); 
+                return clientRemoved;
             }
             else
             {
                 //
                 //creates a regular message if no setinal encountered.
                 //
-                Message sentMessage = new Message(this, message);
+                Message sentMessage = new Message(this, message + Environment.NewLine);
                 return sentMessage;
             }
         }

@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 namespace Server
 {
-    public class Server
+    public class Server : ISpectated
     {
         public Client client;
         TcpListener server;
@@ -18,6 +18,7 @@ namespace Server
         Object messageLock;
         Object clientListLock;
         Object setLock;
+        Object removeLock;
         private Thread ClientAcceptor;
         private Thread MessageReceiver;
         private Thread MessageBroadcaster;
@@ -33,6 +34,7 @@ namespace Server
             Recievers = new List<Thread>();
             clientListLock = new Object();
             setLock = new object();
+            removeLock = new object();
             server.Start();
         }
         public void Run()
@@ -49,46 +51,37 @@ namespace Server
             {
                 try
                 {
-                    //
-                    // changed client.receive to return a message object instead of string then just enqueue it bypassing respond and update chat log
-                    //
-                   
                     Message message = client.Receive();
-                    chatLog.Enqueue(message);
+                    if (message.Body.StartsWith("*^LON"))
+                    {
 
-                    //
-                    //commented out this portion because moved the checks to the server client. (did not move ID one because already commented out
-                    //
+                        RemoveClient(message.sender);
+                    }
+                    else
+                    {
+                        chatLog.Enqueue(message);
+                    }
 
-                    //if (message.StartsWith("*^ID"))
-                    //{
-                    //    currentID = Convert.ToInt32(message);
-                    //}
-                    //if (message.StartsWith("*^CR"))
-                    //{
-                    //    SetChatRoom(message);
-                    //}
-                    //else if (message.StartsWith("*^UN"))
-                    //{
-                    //    client.userName = message.Substring(4);
-                    //    Console.WriteLine("User " + client.userId + " has set their user name to " + client.userName);
-                    //}
-                    //else
-                    //{
-                    //    Console.WriteLine(message);
-                    //    Respond(client, message);
-                    //}
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine(ex.ToString());
-                    //
-                    //here is where you would notify if someone left the client.... not just chatroom
-                    //
+                    Message logOffMessage = new Message(client, client.userName + " has logged off.");
+                    chatLog.Enqueue(logOffMessage);
                 }
 
             }
         }
+          public void RemoveClient(Client removedClient)
+        {
+            foreach (Client listedClient in clientList)
+            {
+                if (removedClient.userId == listedClient.userId)
+                {
+                    clientList.Remove(listedClient);
+                }
+            }
+        }
+
         private void Broadcast()
         {
             while (true)
@@ -128,35 +121,13 @@ namespace Server
                 Recievers.Add(MessageReceiver);
 
             }
-            //clientSocket.Close();
-            //serverSocket.Stop();
-            //Console.WriteLine("Exit");
-            //Console.ReadLine();
         }
-
-        //public void Receive()
-        //{
-
-        //}
-        //private void UpdatChatRoom()
-        //{
-        //    if client.UserName
-        //}
         private void SetChatRoom(string message)
         {
             client.chatRoom = message.Substring(4);
             Message joinMessage = new Message(client, "has joined.");
             SendMessagesToClients(joinMessage);
 
-        }
-        private void Respond(Client client, string body)
-        {
-            UpdateChatList(client, body);
-        }
-        private void UpdateChatList(Client client, string body)
-        {
-            Message chatAddition = new Message(client, body);
-            chatLog.Enqueue(chatAddition);
         }
         private void SendMessagesToClients(Message message)
         {
@@ -167,7 +138,6 @@ namespace Server
                     Console.WriteLine(client.userName + " is sending the message " + message.Body + " to the chat room " + client.chatRoom);
                     client.Send(message);
                 }
-                // check chatroom
             }
         }
 
