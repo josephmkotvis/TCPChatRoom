@@ -62,7 +62,7 @@ namespace Server
                 }
                 catch
                 {
-                    Message logOffMessage = new Message(client, client.userName + " has logged off.");
+                    Message logOffMessage = new Message(client, client.userName + " has logged off." + Environment.NewLine);
                     chatLog.Enqueue(logOffMessage);
                 }
             }
